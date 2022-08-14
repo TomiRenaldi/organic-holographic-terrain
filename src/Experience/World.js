@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from './Experience.js'
+import Holographic from './components/Holographic.js'
 
 export default class World
 {
@@ -14,20 +15,14 @@ export default class World
         {
             if(_group.name === 'base')
             {
-                this.setDummy()
+                this.setHolographic()
             }
         })
     }
 
-    setDummy()
+    setHolographic()
     {
-        this.resources.items.broccoliTexture.encoding = THREE.sRGBEncoding
-        
-        const cube = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
-            new THREE.MeshBasicMaterial({ map: this.resources.items.broccoliTexture })
-        )
-        this.scene.add(cube)        
+        this.holographic = new Holographic()        
     }
 
     resize()
