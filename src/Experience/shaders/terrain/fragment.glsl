@@ -1,4 +1,7 @@
+varying float vElevation;
+
 void main()
 {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    float elevation = vElevation + 0.5;
+    gl_FragColor = vec4(elevation, elevation, elevation, 1.0);
 }
