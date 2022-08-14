@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import GUI from 'lil-gui'
 
 import Time from './Utils/Time.js'
 import Sizes from './Utils/Sizes.js'
