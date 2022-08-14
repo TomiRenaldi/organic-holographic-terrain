@@ -4,9 +4,6 @@ import Experience from '../Experience.js'
 import vertexShader from '../shaders/terrain/vertex.glsl'
 import fragmentShader from '../shaders/terrain/fragment.glsl'
 
-console.log(vertexShader)
-console.log(fragmentShader)
-
 export default class Terrain
 {
     constructor ()

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { Pane } from 'tweakpane'
 
 import Time from './Utils/Time.js'
 import Sizes from './Utils/Sizes.js'
@@ -54,9 +55,6 @@ export default class Experience
     setConfig()
     {
         this.config = {}
-    
-        // Debug
-        this.config.debug = window.location.hash === '#debug'
 
         // Pixel ratio
         this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
@@ -65,13 +63,18 @@ export default class Experience
         const boundings = this.targetElement.getBoundingClientRect()
         this.config.width = boundings.width
         this.config.height = boundings.height || window.innerHeight
+
+        // Debug
+        // this.config.debug = window.location.hash === '#debug'
+        this.config.debug = this.config.width > 420
     }
 
     setDebug()
     {
         if(this.config.debug)
         {
-            this.debug = new GUI()
+            this.debug = new Pane()
+            this.debug.containerElem_.style.width = '320px'
         }
     }
 
