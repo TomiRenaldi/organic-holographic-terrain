@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import Experience from './Experience.js'
-import Holographic from './components/Holographic.js'
+import Terrain from './components/Terrain.js'
 
 export default class World
 {
@@ -15,14 +15,14 @@ export default class World
         {
             if(_group.name === 'base')
             {
-                this.setHolographic()
+                this.setTerrain()
             }
         })
     }
 
-    setHolographic()
+    setTerrain()
     {
-        this.holographic = new Holographic()        
+        this.terrain = new Terrain()        
     }
 
     resize()
