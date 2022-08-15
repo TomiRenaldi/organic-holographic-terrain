@@ -18,6 +18,7 @@ export default class Terrain
     setTexture()
     {
         this.texture = {}
+        this.texture.linesCount = 5
         this.texture.width = 32
         this.texture.height = 128
         this.texture.canvas = document.createElement('canvas')
@@ -27,14 +28,33 @@ export default class Terrain
         this.texture.canvas.style.top = 0
         this.texture.canvas.style.left = 0
         this.texture.canvas.style.zIndex = 1
-        this.texture.context = this.texture.canvas.getContext('2d')
         document.body.append(this.texture.canvas)
-        this.texture.context.fillStyle = 'red'
-        this.texture.context.fillRect(0, 0, this.texture.width, this.texture.height)
+
+        this.texture.context = this.texture.canvas.getContext('2d')
 
         this.texture.instance = new THREE.CanvasTexture(this.texture.canvas)
         this.texture.instance.wrapS = THREE.RepeatWrapping
         this.texture.instance.wrapT = THREE.RepeatWrapping
+
+        this.texture.update = () =>
+        {
+            this.texture.context.clearRect(0, 0, this.texture.width, this.texture.height)
+            
+            this.texture.context.fillStyle = '#ffffff'
+
+
+            for (let i = 0; i < this.texture.linesCount; i++)
+            {
+                this.texture.context.fillRect(
+                    0, 
+                    Math.round(this.texture.height * 0),
+                    this.texture.width,
+                    Math.round(this.texture.height * 0.1)
+                )
+            }
+        }
+
+        this.texture.update()
     }
 
     setTerrain()
