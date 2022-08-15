@@ -23,9 +23,18 @@ export default class Terrain
         this.texture.canvas = document.createElement('canvas')
         this.texture.canvas.width = this.texture.width
         this.texture.canvas.height = this.texture.height
+        this.texture.canvas.style.position = 'fixed'
+        this.texture.canvas.style.top = 0
+        this.texture.canvas.style.left = 0
+        this.texture.canvas.style.zIndex = 1
         this.texture.context = this.texture.canvas.getContext('2d')
+        document.body.append(this.texture.canvas)
         this.texture.context.fillStyle = 'red'
         this.texture.context.fillRect(0, 0, this.texture.width, this.texture.height)
+
+        this.texture.instance = new THREE.CanvasTexture(this.texture.canvas)
+        this.texture.instance.wrapS = THREE.RepeatWrapping
+        this.texture.instance.wrapT = THREE.RepeatWrapping
     }
 
     setTerrain()
@@ -42,6 +51,7 @@ export default class Terrain
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             uniforms: {
+                uTexture: { value: this.texture.instance },
                 uElevation: { value: 2 }
             }
         })
