@@ -19,6 +19,8 @@ export default class Terrain
     {
         this.texture = {}
         this.texture.linesCount = 5
+        this.texture.bigLineWidth = 0.05
+        this.texture.smallLineWidth = 0.02
         this.texture.width = 32
         this.texture.height = 128
         this.texture.canvas = document.createElement('canvas')
@@ -35,12 +37,14 @@ export default class Terrain
         this.texture.instance = new THREE.CanvasTexture(this.texture.canvas)
         this.texture.instance.wrapS = THREE.RepeatWrapping
         this.texture.instance.wrapT = THREE.RepeatWrapping
+        this.texture.instance.magFilter = THREE.NearestFilter
 
         this.texture.update = () =>
         {
             this.texture.context.clearRect(0, 0, this.texture.width, this.texture.height)
             
             // Big lines
+            const actualBigLineWidth = Math.round(this.texture.height * this.texture.bigLineWidth)
             this.texture.context.globalAlpha = 1
             this.texture.context.fillStyle = '#ffffff'
 
@@ -48,20 +52,21 @@ export default class Terrain
                 0,
                 0,
                 this.texture.width,
-                Math.round(this.texture.height * 0.05)
+                actualBigLineWidth
             )
 
             // Small lines
-            this.texture.smallLinesCount = this.texture.linesCount - 1
+            const actualSmallLineWidth = Math.round(this.texture.height * this.texture.smallLineWidth)
+            const smallLinesCount = this.texture.linesCount - 1
 
-            for (let i = 0; i < this.texture.smallLinesCount; i++)
+            for (let i = 0; i < smallLinesCount; i++)
             {
                 this.texture.context.globalAlpha = 0.5
                 this.texture.context.fillRect(
                     0,
-                    Math.round(this.texture.height / this.texture.linesCount) * (i + 1),
+                    actualBigLineWidth + Math.round((this.texture.height - actualBigLineWidth) / this.texture.linesCount) * (i + 1),
                     this.texture.width,
-                    Math.round(this.texture.height * 0.02)
+                    actualSmallLineWidth
                 )
             }
         }
