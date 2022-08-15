@@ -40,16 +40,28 @@ export default class Terrain
         {
             this.texture.context.clearRect(0, 0, this.texture.width, this.texture.height)
             
+            // Big lines
+            this.texture.context.globalAlpha = 1
             this.texture.context.fillStyle = '#ffffff'
 
+            this.texture.context.fillRect(
+                0,
+                0,
+                this.texture.width,
+                Math.round(this.texture.height * 0.05)
+            )
 
-            for (let i = 0; i < this.texture.linesCount; i++)
+            // Small lines
+            this.texture.smallLinesCount = this.texture.linesCount - 1
+
+            for (let i = 0; i < this.texture.smallLinesCount; i++)
             {
+                this.texture.context.globalAlpha = 0.5
                 this.texture.context.fillRect(
-                    0, 
-                    Math.round(this.texture.height * 0),
+                    0,
+                    Math.round(this.texture.height / this.texture.linesCount) * (i + 1),
                     this.texture.width,
-                    Math.round(this.texture.height * 0.1)
+                    Math.round(this.texture.height * 0.02)
                 )
             }
         }
@@ -61,7 +73,7 @@ export default class Terrain
     {
         this.terrain = {}
 
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 1000, 1000)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
         this.terrain.material = new THREE.ShaderMaterial({
