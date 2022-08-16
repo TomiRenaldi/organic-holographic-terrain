@@ -31,7 +31,7 @@ export default class Terrain
         this.texture.linesCount = 8
         this.texture.bigLineWidth = 0.1
         this.texture.smallLineWidth = 0.02
-        this.texture.smallLineAlpha = 0.5
+        this.texture.smallLineAlpha = 0.2
         this.texture.width = 32
         this.texture.height = 128
         this.texture.canvas = document.createElement('canvas')
@@ -87,60 +87,67 @@ export default class Terrain
         // Update set texture
         this.texture.update()
 
-        // Debug folder
-        this.debugFolder.addInput(
-            this.texture,
-            'linesCount',
-            {
-                min: 1, max: 10, step: 1,
-            }
-        )
-        .on('change', () =>
+        // Debug Texture
+        if (this.debug)
         {
-            this.texture.update()
-        })
+            const debugFolder = this.debugFolder.addFolder({
+                title: 'texture'
+            })
+            
+            debugFolder.addInput(
+                this.texture,
+                'linesCount',
+                {
+                    min: 1, max: 10, step: 1,
+                }
+            )
+            .on('change', () =>
+            {
+                this.texture.update()
+            })
 
-        this.debugFolder.addInput(
-            this.texture,
-            'bigLineWidth',
+            debugFolder.addInput(
+                this.texture,
+                'bigLineWidth',
+                {
+                    min: 0,
+                    max: 0.5,
+                    step: 0.0001,
+                }
+            )
+            .on('change', () => 
             {
-                min: 0,
-                max: 0.5,
-                step: 0.0001,
-            }
-        )
-        .on('change', () => 
-        {
-            this.texture.update()    
-        })
+                this.texture.update()    
+            })
 
-        this.debugFolder.addInput(
-            this.texture,
-            'smallLineWidth',
+            debugFolder.addInput(
+                this.texture,
+                'smallLineWidth',
+                {
+                    min: 0,
+                    max: 0.2,
+                    step: 0.0001,
+                }
+            )
+            .on('change', () => 
             {
-                min: 0,
-                max: 0.2,
-                step: 0.0001,
-            }
-        )
-        .on('change', () => 
-        {
-            this.texture.update()    
-        })
+                this.texture.update()    
+            })
 
-        this.debugFolder.addInput(
-            this.texture,
-            'smallLineAlpha',
+            debugFolder.addInput(
+                this.texture,
+                'smallLineAlpha',
+                {
+                    min: 0,
+                    max: 1,
+                    step: 0.01,
+                }
+            )
+            .on('change', () => 
             {
-                min: 0,
-                max: 1,
-                step: 0.01,
-            }
-        )
-        .on('change', () => 
-        {
-            this.texture.update()    
-        })
+                this.texture.update()    
+            })
+        }
     }
 
     setTerrain()
@@ -164,9 +171,14 @@ export default class Terrain
             }
         })
 
+        // Debug unforms
         if (this.debug)
         {
-            this.debugFolder.addInput(
+            const debugFolder = this.debugFolder.addFolder({
+                title: 'material'
+            })
+
+            debugFolder.addInput(
                 this.terrain.material.uniforms.uElevation,
                 'value',
                 { label: 'uElevation', min: 0, max: 5, step: 0.001 }

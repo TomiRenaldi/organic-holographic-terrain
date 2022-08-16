@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Experience from './Experience.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js'
+import { BokehPass } from '../Experience/passes/BokehPass.js'
 
 export default class Renderer
 {
@@ -102,13 +102,46 @@ export default class Renderer
             this.camera.instance,
             {
                 focus: 1.0,
-                aperture: 0.025,
-                maxblur: 0.008,
+                aperture: 0.015,
+                maxblur: 0.01,
 
                 width: 800,
                 height: 800
             }
         )
+
+        // Debug Bokeh
+        if (this.debug)
+        {
+            this.debugFolder.addFolder({
+                title: 'bokehPass'
+            })
+
+            this.debugFolder.addInput(
+                this.postProcess.bokehPass,
+                'enabled'
+            )
+
+            this.debugFolder.addInput(
+                this.postProcess.bokehPass.materialBokeh.uniforms.focus,
+                'value',
+                { label: 'focus', min: 0, max: 10, step: 0.01 }
+            )
+
+            this.debugFolder.addInput(
+                this.postProcess.bokehPass.materialBokeh.uniforms.aperture,
+                'value',
+                { label: 'aperture', min: 0.0002, max: 0.1, step: 0.0001 }
+            )
+
+            this.debugFolder.addInput(
+                this.postProcess.bokehPass.materialBokeh.uniforms.maxblur,
+                'value',
+                { label: 'maxblur', min: 0, max: 0.2, step: 0.0001 }
+            )
+        }
+
+        this
 
         /**
          * Effect composer
