@@ -91,7 +91,7 @@ export default class Terrain
         if (this.debug)
         {
             const debugFolder = this.debugFolder.addFolder({
-                title: 'texture'
+                title: 'terrainTexture'
             })
             
             debugFolder.addInput(
@@ -167,7 +167,8 @@ export default class Terrain
             fragmentShader: fragmentShader,
             uniforms: {
                 uTexture: { value: this.texture.instance },
-                uElevation: { value: 2 }
+                uTextureFrequency: { value: 15.0 },
+                uElevation: { value: 2.0 }
             }
         })
 
@@ -182,6 +183,12 @@ export default class Terrain
                 this.terrain.material.uniforms.uElevation,
                 'value',
                 { label: 'uElevation', min: 0, max: 5, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.material.uniforms.uTextureFrequency,
+                'value',
+                { label: 'uTextureFrequency', min: 0, max: 25, step: 0.001 }
             )
         }
 

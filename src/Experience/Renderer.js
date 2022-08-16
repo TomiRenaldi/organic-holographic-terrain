@@ -113,35 +113,33 @@ export default class Renderer
         // Debug Bokeh
         if (this.debug)
         {
-            this.debugFolder.addFolder({
+            const debugFolder = this.debugFolder.addFolder({
                 title: 'bokehPass'
             })
 
-            this.debugFolder.addInput(
+            debugFolder.addInput(
                 this.postProcess.bokehPass,
                 'enabled'
             )
 
-            this.debugFolder.addInput(
+            debugFolder.addInput(
                 this.postProcess.bokehPass.materialBokeh.uniforms.focus,
                 'value',
                 { label: 'focus', min: 0, max: 10, step: 0.01 }
             )
 
-            this.debugFolder.addInput(
+            debugFolder.addInput(
                 this.postProcess.bokehPass.materialBokeh.uniforms.aperture,
                 'value',
                 { label: 'aperture', min: 0.0002, max: 0.1, step: 0.0001 }
             )
 
-            this.debugFolder.addInput(
+            debugFolder.addInput(
                 this.postProcess.bokehPass.materialBokeh.uniforms.maxblur,
                 'value',
                 { label: 'maxblur', min: 0, max: 0.2, step: 0.0001 }
             )
         }
-
-        this
 
         /**
          * Effect composer
