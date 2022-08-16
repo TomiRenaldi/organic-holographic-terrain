@@ -10,6 +10,14 @@ export default class Terrain
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.debug = this.experience.debug 
+
+        if(this.debug)
+        {
+            this.debugFolder = this.debug.addFolder({
+                title: 'terrain'
+            })
+        }
 
         this.setTexture()
         this.setTerrain()
@@ -19,7 +27,7 @@ export default class Terrain
     {
         this.texture = {}
         this.texture.linesCount = 5
-        this.texture.bigLineWidth = 0.05
+        this.texture.bigLineWidth = 0.1
         this.texture.smallLineWidth = 0.02
         this.texture.width = 32
         this.texture.height = 128
@@ -69,18 +77,50 @@ export default class Terrain
                     actualSmallLineWidth
                 )
             }
+
+            // Update texture instance
+            this.texture.instance.needsUpdate = true
         }
 
         this.texture.update()
+
+        // Debug
+        this.debugFolder.addInput(
+            this.texture,
+            'linesCount',
+            {
+                min: 1, max: 10, step: 1,
+            }
+        )
+        .on('change', () =>
+        {
+            this.texture.update()
+        })
+
+        this.debugFolder.addInput(
+            this.texture,
+            'bigLineWidth',
+            {
+                min: 0,
+                max: 0.5,
+                step: 0.0001,
+            }
+        )
+        .on('change', () => 
+        {
+            this.texture.update()    
+        })
     }
 
     setTerrain()
     {
         this.terrain = {}
 
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 1000, 1000)
+        // Geometry
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
+        // Material
         this.terrain.material = new THREE.ShaderMaterial({
             transparent: true,
             blending: THREE.AdditiveBlending,
@@ -93,6 +133,7 @@ export default class Terrain
             }
         })
 
+        // Mesh
         this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.material)
         this.terrain.mesh.scale.set(10, 10, 10)
         this.scene.add(this.terrain.mesh)
