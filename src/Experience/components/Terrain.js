@@ -12,6 +12,7 @@ export default class Terrain
         this.scene = this.experience.scene
         this.debug = this.experience.debug 
 
+        // Debug
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder({
@@ -26,9 +27,10 @@ export default class Terrain
     setTexture()
     {
         this.texture = {}
-        this.texture.linesCount = 5
+        this.texture.linesCount = 8
         this.texture.bigLineWidth = 0.1
         this.texture.smallLineWidth = 0.02
+        this.texture.smallLineAlpha = 0.5
         this.texture.width = 32
         this.texture.height = 128
         this.texture.canvas = document.createElement('canvas')
@@ -69,7 +71,7 @@ export default class Terrain
 
             for (let i = 0; i < smallLinesCount; i++)
             {
-                this.texture.context.globalAlpha = 0.5
+                this.texture.context.globalAlpha = this.texture.smallLineAlpha
                 this.texture.context.fillRect(
                     0,
                     actualBigLineWidth + Math.round((this.texture.height - actualBigLineWidth) / this.texture.linesCount) * (i + 1),
@@ -77,14 +79,14 @@ export default class Terrain
                     actualSmallLineWidth
                 )
             }
-
             // Update texture instance
             this.texture.instance.needsUpdate = true
         }
 
+        // Update set texture
         this.texture.update()
 
-        // Debug
+        // Debug folder
         this.debugFolder.addInput(
             this.texture,
             'linesCount',
@@ -104,6 +106,34 @@ export default class Terrain
                 min: 0,
                 max: 0.5,
                 step: 0.0001,
+            }
+        )
+        .on('change', () => 
+        {
+            this.texture.update()    
+        })
+
+        this.debugFolder.addInput(
+            this.texture,
+            'smallLineWidth',
+            {
+                min: 0,
+                max: 0.2,
+                step: 0.0001,
+            }
+        )
+        .on('change', () => 
+        {
+            this.texture.update()    
+        })
+
+        this.debugFolder.addInput(
+            this.texture,
+            'smallLineAlpha',
+            {
+                min: 0,
+                max: 1,
+                step: 0.01,
             }
         )
         .on('change', () => 
