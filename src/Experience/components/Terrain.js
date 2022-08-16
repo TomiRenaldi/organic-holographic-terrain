@@ -163,6 +163,15 @@ export default class Terrain
             }
         })
 
+        if (this.debug)
+        {
+            this.debugFolder.addInput(
+                this.terrain.material.uniforms.uElevation,
+                'value',
+                { label: 'uElevation', min: 0, max: 5, step: 0.001 }
+            )
+        }
+
         // Mesh
         this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.material)
         this.terrain.mesh.scale.set(10, 10, 10)
