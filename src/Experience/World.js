@@ -31,6 +31,8 @@ export default class World
 
     update()
     {
+        if (this.terrain)
+            this.terrain.update()
     }
 
     destroy()

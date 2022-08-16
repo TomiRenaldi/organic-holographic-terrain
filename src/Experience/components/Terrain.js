@@ -10,7 +10,8 @@ export default class Terrain
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.debug = this.experience.debug 
+        this.debug = this.experience.debug
+        this.renderer = this.experience.renderer
 
         // Debug
         if(this.debug)
@@ -176,5 +177,10 @@ export default class Terrain
         this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.material)
         this.terrain.mesh.scale.set(10, 10, 10)
         this.scene.add(this.terrain.mesh)
+    }
+
+    update()
+    {
+
     }
 }
