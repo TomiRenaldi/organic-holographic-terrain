@@ -3,6 +3,8 @@ uniform float uTextureFrequency;
 
 varying float vElevation;
 
+#pragma glslify: getElevation = require('../partials/getElevation.glsl')
+
 void main()
 {
     vec4 textureColor = texture2D(uTexture, vec2(0, vElevation * uTextureFrequency));

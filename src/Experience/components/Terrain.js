@@ -212,7 +212,6 @@ export default class Terrain
         {
             this.terrain.uniforms[uniformsKey] = this.terrain.uniforms[uniformsKey]  
         }
-
         this.terrain.depthMaterial.depthPacking = THREE.RGBADepthPacking
         this.terrain.depthMaterial.blending = THREE.NoBlending
 
