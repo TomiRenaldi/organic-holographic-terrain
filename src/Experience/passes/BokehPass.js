@@ -6,7 +6,8 @@ import {
     RGBADepthPacking,
     ShaderMaterial,
     UniformsUtils,
-    WebGLRenderTarget
+    WebGLRenderTarget,
+    Mesh
 } from 'three';
 import { Pass, FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass.js';
 import { BokehShader } from 'three/examples/jsm/shaders/BokehShader.js';
@@ -86,8 +87,22 @@ class BokehPass extends Pass {
     render(renderer, writeBuffer, readBuffer/*, deltaTime, maskActive*/) {
 
         // Render depth into texture
+        // this.scene.overrideMaterial = this.materialDepth;
 
-        this.scene.overrideMaterial = this.materialDepth;
+        this.scene.traverse(_child => {
+            if (_child instanceof Mesh) {
+                if (typeof _child.userData.noBokeh === 'undefined') {
+                    _child.userData.originalMaterial = _child.material
+
+                    if (_child.userData.depthMaterial) {
+                        _child.material = _child.userData.depthMaterial
+                    }
+                    else {
+                        _child.material = this.materialDepth
+                    }
+                }
+            }
+        })
 
         renderer.getClearColor(this._oldClearColor);
         const oldClearAlpha = renderer.getClearAlpha();
@@ -119,7 +134,15 @@ class BokehPass extends Pass {
 
         }
 
-        this.scene.overrideMaterial = null;
+        // this.scene.overrideMaterial = null;
+        this.scene.traverse(_child => {
+            if (_child instanceof Mesh) {
+                if (typeof _child.userData.noBokeh === 'undefined') {
+                    _child.material = _child.userData.originalMaterial
+                }
+            }
+        })
+
         renderer.setClearColor(this._oldClearColor);
         renderer.setClearAlpha(oldClearAlpha);
         renderer.autoClear = oldAutoClear;
