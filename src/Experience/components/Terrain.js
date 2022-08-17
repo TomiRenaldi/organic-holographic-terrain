@@ -4,6 +4,9 @@ import Experience from '../Experience.js'
 import vertexShader from '../shaders/terrain/vertex.glsl'
 import fragmentShader from '../shaders/terrain/fragment.glsl'
 
+import vertexDepthShader from '../shaders/terrain/vertex.glsl'
+import fragmentDepthShader from '../shaders/terrain/fragment.glsl'
+
 export default class Terrain
 {
     constructor ()
@@ -194,12 +197,28 @@ export default class Terrain
         }
 
         // Depth material
-        this.terrain.depthMaterial = new THREE.MeshDepthMaterial()
+        this.terrain.uniforms = THREE.UniformsUtils.merge([
+            THREE.UniformsLib.common,
+            THREE.UniformsLib.displacementmap
+        ])
+
+        this.terrain.depthMaterial = new THREE.ShaderMaterial({
+            uniforms: this.terrain.uniforms,
+            vertexShader: vertexDepthShader, 
+            fragmentShader: fragmentDepthShader 
+        })
+
+        for (const uniformsKey in this.terrain.uniforms)
+        {
+            this.terrain.uniforms[uniformsKey] = this.terrain.uniforms[uniformsKey]  
+        }
+
         this.terrain.depthMaterial.depthPacking = THREE.RGBADepthPacking
         this.terrain.depthMaterial.blending = THREE.NoBlending
 
         // Mesh
-        this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.depthMaterial)
+        this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.material)
+        this.terrain.mesh.userData.depthMaterial = this.terrain.depthMaterial
         this.terrain.mesh.scale.set(10, 10, 10)
         this.scene.add(this.terrain.mesh)
     }
