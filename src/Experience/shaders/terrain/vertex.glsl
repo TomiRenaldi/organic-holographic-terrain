@@ -1,6 +1,9 @@
-#pragma glslify: getElevation = require('../partials/getElevation.glsl')
+uniform float uTime;
 
 varying float vElevation;
+varying vec2 vUv;
+
+#pragma glslify: getElevation = require('../partials/getElevation.glsl')
 
 void main()
 {
@@ -15,4 +18,5 @@ void main()
     gl_Position = projectionPosition;
 
     vElevation = elevation;
+    vUv = uv;
 }
