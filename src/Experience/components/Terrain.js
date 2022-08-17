@@ -11,7 +11,7 @@ export default class Terrain
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.debug = this.experience.debug
-        this.renderer = this.experience.renderer
+        this.time = this.experience.time
 
         // Debug
         if(this.debug)
@@ -155,7 +155,7 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 500, 500)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
         // Material
@@ -168,7 +168,8 @@ export default class Terrain
             uniforms: {
                 uTexture: { value: this.texture.instance },
                 uTextureFrequency: { value: 15.0 },
-                uElevation: { value: 2.0 }
+                uElevation: { value: 2.0 },
+                uTime: { value: 0 }
             }
         })
 
@@ -188,7 +189,7 @@ export default class Terrain
             debugFolder.addInput(
                 this.terrain.material.uniforms.uTextureFrequency,
                 'value',
-                { label: 'uTextureFrequency', min: 0, max: 25, step: 0.001 }
+                { label: 'uTextureFrequency', min: 0.01, max: 50, step: 0.01 }
             )
         }
 
@@ -200,6 +201,7 @@ export default class Terrain
 
     update()
     {
-
+        // Update terrain
+        this.terrain.material.uniforms.uTime.value = this.time.elapsed * 0.0005
     }
 }
