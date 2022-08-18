@@ -5,13 +5,13 @@ varying float vElevation;
 varying vec2 vUv;
 
 #pragma glslify: getElevation = require('../partials/getElevation.glsl')
-#pragma glslify: perlin3d = require('../partials/perlin3d.glsl')
+#pragma glslify: perlin2d = require('../partials/perlin2d.glsl')
 #pragma glslify: getHslToRgb = require('../partials/getHslToRgb.glsl')
 
 vec3 getRainbowColor()
 {
-    float hue = perlin3d(vec3(vUv, 0.0));
-    vec3 hslColor = vec3(0.0, 1.0, 0.5);
+    float hue = perlin2d(vUv * 10.0);
+    vec3 hslColor = vec3(hue, 1.0, 0.5);
     vec3 rainbowColor = getHslToRgb(hslColor);
     return rainbowColor;
 }

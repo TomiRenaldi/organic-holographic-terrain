@@ -225,6 +225,6 @@ export default class Terrain
     update()
     {
         // Update terrain
-        this.terrain.material.uniforms.uTime.value = this.time.elapsed * 0.0005
+        this.terrain.material.uniforms.uTime.value = this.time.elapsed * 0.01
     }
 }
