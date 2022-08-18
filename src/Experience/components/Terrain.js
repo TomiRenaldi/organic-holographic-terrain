@@ -4,8 +4,8 @@ import Experience from '../Experience.js'
 import vertexShader from '../shaders/terrain/vertex.glsl'
 import fragmentShader from '../shaders/terrain/fragment.glsl'
 
-import vertexDepthShader from '../shaders/terrain/vertex.glsl'
-import fragmentDepthShader from '../shaders/terrain/fragment.glsl'
+import vertexDepthShader from '../shaders/terrainDepth/vertex.glsl'
+import fragmentDepthShader from '../shaders/terrainDepth/fragment.glsl'
 
 export default class Terrain
 {
@@ -158,21 +158,8 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 200, 200)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
-
-        this.terrain.uniform = {
-            uTexture: { value: this.texture.instance },
-            uTextureFrequency: { value: 15.0 },
-            uElevation: { value: 2.0 },
-            uTime: { value: 0 },
-            uHslHue: { value: 1.0 },
-            uHslHueOffset: { value: 0.0 },
-            uHslHueFrequency: { value: 10.0 },
-            uHslLightness: { value: 0.75 },
-            uHslLightnessVariation: { value: 0.25 },
-            uHslLightnessFrequency: { value: 20.0 }
-        }
         
         // Material
         this.terrain.material = new THREE.ShaderMaterial({
@@ -181,7 +168,19 @@ export default class Terrain
             side: THREE.DoubleSide,
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
-            uniforms: this.terrain.uniform
+            uniforms: {
+                uTexture: { value: this.texture.instance },
+                uTextureFrequency: { value: 15.0 },
+                uElevation: { value: 2.0 },
+                uTime: { value: 0 },
+                uHslHue: { value: 1.0 },
+                uHslHueOffset: { value: 0.0 },
+                uHslHueFrequency: { value: 10.0 },
+                uHslTimeFrequency: { value: 0.05 },
+                uHslLightness: { value: 0.75 },
+                uHslLightnessVariation: { value: 0.25 },
+                uHslLightnessFrequency: { value: 20.0 }
+            }
         })
 
         // Debug unforms
@@ -192,49 +191,55 @@ export default class Terrain
             })
 
             debugFolder.addInput(
-                this.terrain.uniform.uElevation,
+                this.terrain.material.uniforms.uElevation,
                 'value',
                 { label: 'uElevation', min: 0, max: 5, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.uniform.uTextureFrequency,
+                this.terrain.material.uniforms.uTextureFrequency,
                 'value',
                 { label: 'uTextureFrequency', min: 0.01, max: 50, step: 0.01 }
             )
 
             debugFolder.addInput(
-                this.terrain.uniform.uHslHue,
+                this.terrain.material.uniforms.uHslHue,
                 'value',
                 { label: 'uHslHue', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.uniform.uHslHueOffset,
+                this.terrain.material.uniforms.uHslHueOffset,
                 'value',
                 { label: 'uHslHueOffset', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.uniform.uHslHueFrequency,
+                this.terrain.material.uniforms.uHslHueFrequency,
                 'value',
                 { label: 'uHslHueFrequency', min: 0, max: 50, step: 0.01 }
             )
 
             debugFolder.addInput(
-                this.terrain.uniform.uHslLightness,
+                this.terrain.material.uniforms.uHslTimeFrequency,
+                'value',
+                { label: 'uHslTimeFrequency', min: 0, max: 0.2, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.material.uniforms.uHslLightness,
                 'value',
                 { label: 'uHslLightness', min: 0, max: 1, step: 0.001 }
             )
             
             debugFolder.addInput(
-                this.terrain.uniform.uHslLightnessVariation,
+                this.terrain.material.uniforms.uHslLightnessVariation,
                 'value',
                 { label: 'uHslLightnessVariation', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.uniform.uHslLightnessFrequency,
+                this.terrain.material.uniforms.uHslLightnessFrequency,
                 'value',
                 { label: 'uHslLightnessFrequency', min: 0, max: 50, step: 0.01 }
             )
@@ -269,6 +274,6 @@ export default class Terrain
     update()
     {
         // Update terrain
-        this.terrain.material.uniforms.uTime.value = this.time.elapsed * 0.01
+        this.terrain.material.uniforms.uTime.value = this.time.elapsed * 0.001
     }
 }
