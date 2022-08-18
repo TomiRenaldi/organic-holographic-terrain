@@ -158,7 +158,7 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 500, 500)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 200, 200)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
         this.terrain.uniform = {
@@ -213,6 +213,30 @@ export default class Terrain
                 this.terrain.uniform.uHslHueOffset,
                 'value',
                 { label: 'uHslHueOffset', min: 0, max: 1, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.uniform.uHslHueFrequency,
+                'value',
+                { label: 'uHslHueFrequency', min: 0, max: 50, step: 0.01 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.uniform.uHslLightness,
+                'value',
+                { label: 'uHslLightness', min: 0, max: 1, step: 0.001 }
+            )
+            
+            debugFolder.addInput(
+                this.terrain.uniform.uHslLightnessVariation,
+                'value',
+                { label: 'uHslLightnessVariation', min: 0, max: 1, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.uniform.uHslLightnessFrequency,
+                'value',
+                { label: 'uHslLightnessFrequency', min: 0, max: 50, step: 0.01 }
             )
         }
 

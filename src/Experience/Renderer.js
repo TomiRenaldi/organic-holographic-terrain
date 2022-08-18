@@ -119,7 +119,7 @@ export default class Renderer
             debugFolder.addInput(
                 this.postProcess.bokehPass.materialBokeh.uniforms.focus,
                 'value',
-                { label: 'focus', min: 0, max: 10, step: 0.01 }
+                { label: 'focus', min: 0, max: 10, step: 0.001 }
             )
 
             debugFolder.addInput(
@@ -131,7 +131,7 @@ export default class Renderer
             debugFolder.addInput(
                 this.postProcess.bokehPass.materialBokeh.uniforms.maxblur,
                 'value',
-                { label: 'maxblur', min: 0, max: 0.2, step: 0.0001 }
+                { label: 'maxblur', min: 0, max: 0.02, step: 0.0001 }
             )
         }
 
