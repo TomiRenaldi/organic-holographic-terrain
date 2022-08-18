@@ -1,5 +1,11 @@
 uniform sampler2D uTexture;
 uniform float uTextureFrequency;
+uniform float uHslHue;
+uniform float uHslHueOffset;
+uniform float uHslHueFrequency;
+uniform float uHslLightness;
+uniform float uHslLightnessVariation;
+uniform float uHslLightnessFrequency;
 
 varying float vElevation;
 varying vec2 vUv;
@@ -10,9 +16,11 @@ varying vec2 vUv;
 
 vec3 getRainbowColor()
 {
-    float hue = perlin2d(vUv * 10.0);
-    vec3 hslColor = vec3(hue, 1.0, 0.5);
+    float hue = uHslHueOffset + perlin2d(vUv * uHslHueFrequency) * uHslHue;
+    float lightness = uHslLightness + perlin2d(vUv * uHslLightnessFrequency + 1234.5) * uHslLightnessVariation;
+    vec3 hslColor = vec3(hue, 1.0, lightness);  
     vec3 rainbowColor = getHslToRgb(hslColor);
+
     return rainbowColor;
 }
 

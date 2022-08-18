@@ -68,13 +68,7 @@ export default class Renderer
         this.instance.setSize(this.config.width, this.config.height)
         this.instance.setPixelRatio(this.config.pixelRatio)
 
-        // this.instance.physicallyCorrectLights = true
-        // this.instance.gammaOutPut = true
         this.instance.outputEncoding = THREE.sRGBEncoding
-        // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
-        // this.instance.shadowMap.enabled = false
-        // this.instance.toneMapping = THREE.NoToneMapping
-        // this.instance.toneMappingExposure = 1
 
         this.context = this.instance.getContext()
 
@@ -105,8 +99,8 @@ export default class Renderer
                 aperture: 0.015,
                 maxblur: 0.01,
 
-                width: 800,
-                height: 800
+                width: this.config.width * this.config.pixelRatio,
+                height: this.config.height * this.config.pixelRatio
             }
         )
 

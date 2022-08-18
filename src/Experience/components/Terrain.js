@@ -161,6 +161,19 @@ export default class Terrain
         this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 500, 500)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
+        this.terrain.uniform = {
+            uTexture: { value: this.texture.instance },
+            uTextureFrequency: { value: 15.0 },
+            uElevation: { value: 2.0 },
+            uTime: { value: 0 },
+            uHslHue: { value: 1.0 },
+            uHslHueOffset: { value: 0.0 },
+            uHslHueFrequency: { value: 10.0 },
+            uHslLightness: { value: 0.75 },
+            uHslLightnessVariation: { value: 0.25 },
+            uHslLightnessFrequency: { value: 20.0 }
+        }
+        
         // Material
         this.terrain.material = new THREE.ShaderMaterial({
             transparent: true,
@@ -168,12 +181,7 @@ export default class Terrain
             side: THREE.DoubleSide,
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
-            uniforms: {
-                uTexture: { value: this.texture.instance },
-                uTextureFrequency: { value: 15.0 },
-                uElevation: { value: 2.0 },
-                uTime: { value: 0 }
-            }
+            uniforms: this.terrain.uniform
         })
 
         // Debug unforms
@@ -184,15 +192,27 @@ export default class Terrain
             })
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uElevation,
+                this.terrain.uniform.uElevation,
                 'value',
                 { label: 'uElevation', min: 0, max: 5, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uTextureFrequency,
+                this.terrain.uniform.uTextureFrequency,
                 'value',
                 { label: 'uTextureFrequency', min: 0.01, max: 50, step: 0.01 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.uniform.uHslHue,
+                'value',
+                { label: 'uHslHue', min: 0, max: 1, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.uniform.uHslHueOffset,
+                'value',
+                { label: 'uHslHueOffset', min: 0, max: 1, step: 0.001 }
             )
         }
 
