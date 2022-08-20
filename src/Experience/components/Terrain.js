@@ -31,11 +31,12 @@ export default class Terrain
     setTexture()
     {
         this.texture = {}
+        this.texture.visible = false
         this.texture.linesCount = 8
-        this.texture.bigLineWidth = 0.1
-        this.texture.smallLineWidth = 0.02
-        this.texture.smallLineAlpha = 0.2
-        this.texture.width = 32
+        this.texture.bigLineWidth = 0.05    
+        this.texture.smallLineWidth = 0.01
+        this.texture.smallLineAlpha = 0.5
+        this.texture.width = 1
         this.texture.height = 128
         this.texture.canvas = document.createElement('canvas')
         this.texture.canvas.width = this.texture.width
@@ -44,7 +45,13 @@ export default class Terrain
         this.texture.canvas.style.top = 0
         this.texture.canvas.style.left = 0
         this.texture.canvas.style.zIndex = 1
-        document.body.append(this.texture.canvas)
+        this.texture.canvas.style.width = '50px'
+        this.texture.canvas.style.height = `${this.texture.height}px`
+
+        if (this.texture.visible)
+        {
+            document.body.append(this.texture.canvas)
+        }
 
         this.texture.context = this.texture.canvas.getContext('2d')
 
@@ -76,6 +83,7 @@ export default class Terrain
             for (let i = 0; i < smallLinesCount; i++)
             {
                 this.texture.context.globalAlpha = this.texture.smallLineAlpha
+                this.texture.context.fillStyle = '#00ffff'
                 this.texture.context.fillRect(
                     0,
                     actualBigLineWidth + Math.round((this.texture.height - actualBigLineWidth) / this.texture.linesCount) * (i + 1),
@@ -158,7 +166,7 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 700, 700)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
         
         // Material
@@ -171,7 +179,14 @@ export default class Terrain
             uniforms: {
                 uTexture: { value: this.texture.instance },
                 uTextureFrequency: { value: 15.0 },
+                uTextureOffset: { value: 0 },
                 uElevation: { value: 2.0 },
+                uElevationTerrain: { value: 0.4 },
+                uElevationTerrainFrequency: { value: 1.5 },
+                uElevationGeneral: { value: 0.2 },
+                uElevationGeneralFrequency: { value: 0.2 },
+                uElevationDetails: { value: 0.2 },
+                uElevationDetailsFrequency: { value: 2.012 },
                 uTime: { value: 0 },
                 uHslHue: { value: 1.0 },
                 uHslHueOffset: { value: 0.0 },
@@ -200,6 +215,12 @@ export default class Terrain
                 this.terrain.material.uniforms.uTextureFrequency,
                 'value',
                 { label: 'uTextureFrequency', min: 0.01, max: 50, step: 0.01 }
+            )
+
+            debugFolder.addInput(
+                this.terrain.material.uniforms.uTextureOffset,
+                'value',
+                { label: 'uTextureOffset', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
