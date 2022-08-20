@@ -91,6 +91,7 @@ export default class Terrain
                     actualSmallLineWidth
                 )
             }
+
             // Update texture instance
             this.texture.instance.needsUpdate = true
         }
@@ -168,6 +169,27 @@ export default class Terrain
         // Geometry
         this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 700, 700)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
+
+        this.terrain.hampura = {
+            uTexture: { value: this.texture.instance },
+            uTextureFrequency: { value: 15.0 },
+            uTextureOffset: { value: 0 },
+            uElevation: { value: 2.0 },
+            uElevationTerrain: { value: 0.4 },
+            uElevationTerrainFrequency: { value: 1.5 },
+            uElevationGeneral: { value: 0.2 },
+            uElevationGeneralFrequency: { value: 0.2 },
+            uElevationDetails: { value: 0.2 },
+            uElevationDetailsFrequency: { value: 2.012 },
+            uTime: { value: 0 },
+            uHslHue: { value: 1.0 },
+            uHslHueOffset: { value: 0.0 },
+            uHslHueFrequency: { value: 10.0 },
+            uHslTimeFrequency: { value: 0.05 },
+            uHslLightness: { value: 0.75 },
+            uHslLightnessVariation: { value: 0.25 },
+            uHslLightnessFrequency: { value: 20.0 }
+        }
         
         // Material
         this.terrain.material = new THREE.ShaderMaterial({
@@ -176,26 +198,7 @@ export default class Terrain
             side: THREE.DoubleSide,
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
-            uniforms: {
-                uTexture: { value: this.texture.instance },
-                uTextureFrequency: { value: 15.0 },
-                uTextureOffset: { value: 0 },
-                uElevation: { value: 2.0 },
-                uElevationTerrain: { value: 0.4 },
-                uElevationTerrainFrequency: { value: 1.5 },
-                uElevationGeneral: { value: 0.2 },
-                uElevationGeneralFrequency: { value: 0.2 },
-                uElevationDetails: { value: 0.2 },
-                uElevationDetailsFrequency: { value: 2.012 },
-                uTime: { value: 0 },
-                uHslHue: { value: 1.0 },
-                uHslHueOffset: { value: 0.0 },
-                uHslHueFrequency: { value: 10.0 },
-                uHslTimeFrequency: { value: 0.05 },
-                uHslLightness: { value: 0.75 },
-                uHslLightnessVariation: { value: 0.25 },
-                uHslLightnessFrequency: { value: 20.0 }
-            }
+            uniforms: this.terrain.hampura
         })
 
         // Debug unforms
@@ -206,61 +209,61 @@ export default class Terrain
             })
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uElevation,
+                this.terrain.hampura.uElevation,
                 'value',
                 { label: 'uElevation', min: 0, max: 5, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uTextureFrequency,
+                this.terrain.hampura.uTextureFrequency,
                 'value',
                 { label: 'uTextureFrequency', min: 0.01, max: 50, step: 0.01 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uTextureOffset,
+                this.terrain.hampura.uTextureOffset,
                 'value',
                 { label: 'uTextureOffset', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslHue,
+                this.terrain.hampura.uHslHue,
                 'value',
                 { label: 'uHslHue', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslHueOffset,
+                this.terrain.hampura.uHslHueOffset,
                 'value',
                 { label: 'uHslHueOffset', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslHueFrequency,
+                this.terrain.hampura.uHslHueFrequency,
                 'value',
                 { label: 'uHslHueFrequency', min: 0, max: 50, step: 0.01 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslTimeFrequency,
+                this.terrain.hampura.uHslTimeFrequency,
                 'value',
                 { label: 'uHslTimeFrequency', min: 0, max: 0.2, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslLightness,
+                this.terrain.hampura.uHslLightness,
                 'value',
                 { label: 'uHslLightness', min: 0, max: 1, step: 0.001 }
             )
             
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslLightnessVariation,
+                this.terrain.hampura.uHslLightnessVariation,
                 'value',
                 { label: 'uHslLightnessVariation', min: 0, max: 1, step: 0.001 }
             )
 
             debugFolder.addInput(
-                this.terrain.material.uniforms.uHslLightnessFrequency,
+                this.terrain.hampura.uHslLightnessFrequency,
                 'value',
                 { label: 'uHslLightnessFrequency', min: 0, max: 50, step: 0.01 }
             )
@@ -288,13 +291,13 @@ export default class Terrain
         // Mesh
         this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.material)
         this.terrain.mesh.userData.depthMaterial = this.terrain.depthMaterial
-        this.terrain.mesh.scale.set(10, 10, 10)
+        this.terrain.mesh.scale.set(5, 5, 5)
         this.scene.add(this.terrain.mesh)
     }
 
     update()
     {
         // Update terrain
-        this.terrain.material.uniforms.uTime.value = this.time.elapsed * 0.001
+        this.terrain.hampura.uTime.value = this.time.elapsed * 0.001
     }
 }
