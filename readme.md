@@ -1,4 +1,4 @@
-# Comprehensive
+# Organic Holographic Terrain
 
 - [Idea](https://tympanus.net/Development/InteractiveLandscape/index.html)
 
@@ -16,3 +16,18 @@ npm run dev
 # Build for production in the dist/ directory
 npm run build
 ```
+
+
+# TODO
+
+- [x] Terrain
+- [ ] Lines
+- [ ] Elevation
+- [ ] Bokeh
+- [ ] Blooms
+- [ ] Hue colors
+- [ ] Camera animation
+- [ ] Overlay animation
+- [ ] Presets
+- [ ] Deploy
+- [ ] Credits
