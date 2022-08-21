@@ -27,8 +27,22 @@ export default class Overlay
         this.overlay = {}
 
         this.overlay.color = {}
-        this.overlay.color.value = '#000036'
+        this.overlay.color.value = '#5c5c5c'
         this.overlay.color.instance = new THREE.Color(this.overlay.color.value)
+
+        if (this.debug) {
+            this.debugFolder
+                .addInput(
+                    this.overlay.color,
+                    'value',
+                    {
+                        view: 'color'
+                    }
+                )
+                .on('change', () => {
+                    this.overlay.color.instance.set(this.overlay.color.value)
+                })
+        }
 
         this.overlay.uniforms = {
             uColor: { value: this.overlay.color.instance },
@@ -44,6 +58,7 @@ export default class Overlay
             fragmentShader: fragmentShader,
             transparent: true,
         })
+
         this.overlay.mesh = new THREE.Mesh(this.overlay.geometry, this.overlay.material)
         this.overlay.mesh.userData.noBokeh = true
         this.overlay.mesh.frustumCulled = false
