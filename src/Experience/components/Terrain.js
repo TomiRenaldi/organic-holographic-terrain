@@ -21,6 +21,7 @@ export default class Terrain
         {
             this.debugFolder = this.debug.addFolder({
                 title: 'terrain',
+                expanded: false
             })
         }
 
@@ -32,10 +33,10 @@ export default class Terrain
     {
         this.texture = {}
         this.texture.visible = false
-        this.texture.linesCount = 8
+        this.texture.linesCount = 10
         this.texture.bigLineWidth = 0.03   
         this.texture.smallLineWidth = 0.01
-        this.texture.smallLineAlpha = 0.5
+        this.texture.smallLineAlpha = 0.1
         this.texture.width = 1
         this.texture.height = 128
         this.texture.canvas = document.createElement('canvas')
@@ -103,7 +104,8 @@ export default class Terrain
         if (this.debug)
         {
             const debugFolder = this.debugFolder.addFolder({
-                title: 'terrainTexture'
+                title: 'terrainTexture',
+                expanded: false
             })
             
             debugFolder.addInput(
@@ -201,7 +203,7 @@ export default class Terrain
             uHslHue: { value: 1.0 },
             uHslHueOffset: { value: 0.0 },
             uHslHueFrequency: { value: 10.0 },
-            uHslTimeFrequency: { value: 0.05 },
+            uHslTimeFrequency: { value: 0.067 },
             uHslLightness: { value: 0.75 },
             uHslLightnessVariation: { value: 0.25 },
             uHslLightnessFrequency: { value: 20.0 }
@@ -221,7 +223,8 @@ export default class Terrain
         if (this.debug)
         {
             const debugFolder = this.debugFolder.addFolder({
-                title: 'material'
+                title: 'material',
+                expanded: false
             })
 
             debugFolder.addInput(

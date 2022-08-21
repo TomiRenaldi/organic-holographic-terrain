@@ -1,5 +1,6 @@
 import Experience from './Experience.js'
 import Terrain from './components/Terrain.js'
+import Overlay from './components/Overlay.js'
 
 export default class World
 {
@@ -15,6 +16,7 @@ export default class World
             if(_group.name === 'base')
             {
                 this.setTerrain()
+                this.setOverlay()
             }
         })
     }
@@ -22,6 +24,11 @@ export default class World
     setTerrain()
     {
         this.terrain = new Terrain()        
+    }
+
+    setOverlay()
+    {
+        this.overlay = new Overlay()        
     }
 
     resize()
