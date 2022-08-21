@@ -185,7 +185,7 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 700, 700)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 500, 500)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
         this.terrain.hampura = {

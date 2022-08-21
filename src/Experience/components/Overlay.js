@@ -1,12 +1,23 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
 
+import vertexShader from '../shaders/overlay/vertex.glsl'
+import fragmentShader from '../shaders/overlay/fragment.glsl'
+
 export default class Overlay
 {
     constructor ()
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.debug = this.experience.debug
+
+        // Debug
+        if (this.debug) {
+            this.debugFolder = this.debug.addFolder({
+                title: 'overlay',
+            })
+        }
 
         this.setOverlay()
     }
@@ -14,9 +25,28 @@ export default class Overlay
     setOverlay()
     {
         this.overlay = {}
-        this.overlay.geometry = new THREE.PlaneGeometry(1, 1, 1, 1) 
-        this.overlay.material = new THREE.MeshBasicMaterial({ color: '#0000ff' })
+
+        this.overlay.color = {}
+        this.overlay.color.value = '#000036'
+        this.overlay.color.instance = new THREE.Color(this.overlay.color.value)
+
+        this.overlay.uniforms = {
+            uColor: { value: this.overlay.color.instance },
+            uMultiplier: { value: 1 },
+            uOffset: { value: 0 },
+        }
+
+        this.overlay.geometry = new THREE.PlaneGeometry(2, 2) 
+
+        this.overlay.material = new THREE.ShaderMaterial({
+            uniforms: this.overlay.uniforms,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            transparent: true,
+        })
         this.overlay.mesh = new THREE.Mesh(this.overlay.geometry, this.overlay.material)
+        this.overlay.mesh.userData.noBokeh = true
+        this.overlay.mesh.frustumCulled = false
         this.scene.add(this.overlay.mesh)
     }
 }
