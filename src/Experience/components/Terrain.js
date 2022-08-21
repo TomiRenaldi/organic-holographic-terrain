@@ -108,6 +108,22 @@ export default class Terrain
             
             debugFolder.addInput(
                 this.texture,
+                'visible',
+            )
+            .on('change', () =>
+            {
+                if (this.texture.visible)
+                {
+                    document.body.append(this.texture.canvas)    
+                }
+                else
+                { 
+                    document.body.removeChild(this.texture.canvas)
+                }
+            })
+
+            debugFolder.addInput(
+                this.texture,
                 'linesCount',
                 {
                     min: 1, max: 10, step: 1,
