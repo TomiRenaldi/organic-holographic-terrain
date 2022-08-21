@@ -20,7 +20,7 @@ export default class Terrain
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder({
-                title: 'terrain'
+                title: 'terrain',
             })
         }
 
@@ -33,7 +33,7 @@ export default class Terrain
         this.texture = {}
         this.texture.visible = false
         this.texture.linesCount = 8
-        this.texture.bigLineWidth = 0.05    
+        this.texture.bigLineWidth = 0.03   
         this.texture.smallLineWidth = 0.01
         this.texture.smallLineAlpha = 0.5
         this.texture.width = 1
