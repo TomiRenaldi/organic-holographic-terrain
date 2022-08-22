@@ -13,7 +13,8 @@ export default class Overlay
         this.debug = this.experience.debug
 
         // Debug
-        if (this.debug) {
+        if (this.debug)
+        {
             this.debugFolder = this.debug.addFolder({
                 title: 'overlay',
             })
@@ -26,28 +27,74 @@ export default class Overlay
     {
         this.overlay = {}
 
-        this.overlay.color = {}
-        this.overlay.color.value = '#5c5c5c'
-        this.overlay.color.instance = new THREE.Color(this.overlay.color.value)
+        this.overlay.colorA = {}
+        this.overlay.colorA.value = '#5c5c5c'
+        this.overlay.colorA.instance = new THREE.Color(this.overlay.colorA.value)
 
-        if (this.debug) {
-            this.debugFolder
-                .addInput(
-                    this.overlay.color,
-                    'value',
-                    {
-                        view: 'color'
-                    }
-                )
-                .on('change', () => {
-                    this.overlay.color.instance.set(this.overlay.color.value)
-                })
+        this.overlay.colorB = {}
+        this.overlay.colorB.value = '#000fff'
+        this.overlay.colorB.instance = new THREE.Color(this.overlay.colorB.value)
+
+        if (this.debug)
+        {
+            const debugFolder = this.debugFolder.addFolder({
+                title: 'color'
+            })
+
+            debugFolder.addInput(
+                this.overlay.colorA,
+                'value',
+                {
+                    view: 'color'
+                }
+            )
+            .on('change', () => {
+                this.overlay.colorA.instance.set(this.overlay.colorA.value)    
+            })
+
+            debugFolder.addInput(
+                this.overlay.colorB,
+                'value',
+                {
+                    view: 'color'
+                }
+            )
+            .on('change', () => {
+                this.overlay.colorB.instance.set(this.overlay.colorB.value)    
+            })
         }
 
         this.overlay.uniforms = {
-            uColor: { value: this.overlay.color.instance },
-            uMultiplier: { value: 1 },
-            uOffset: { value: 0 },
+            uSchemaColor: { value: this.overlay.colorA.instance },
+            uSchemaMultiplier: { value: 1.16 },
+            uSchemaOffset: { value: - 1 },
+            uOverlayColor: { value: this.overlay.colorB.instance },
+            uOverlayAlpha: { value: 1 }
+        }
+
+        if (this.debug)
+        { 
+            const debugFolder = this.debugFolder.addFolder({
+                title: 'material'
+            })
+
+            debugFolder.addInput(
+                this.overlay.uniforms.uSchemaMultiplier,
+                'value',
+                { label: 'uSchemaMultiplier', min: 0, max: 5, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.overlay.uniforms.uSchemaOffset,
+                'value',
+                { label: 'uSchemaOffset', min: -2, max: 2, step: 0.001 }
+            )
+
+            debugFolder.addInput(
+                this.overlay.uniforms.uOverlayAlpha,
+                'value',
+                { label: 'uOverlayAlpha', min: 0, max: 1, step: 0.001 }
+            )
         }
 
         this.overlay.geometry = new THREE.PlaneGeometry(2, 2) 
