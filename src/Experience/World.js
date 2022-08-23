@@ -39,6 +39,9 @@ export default class World
     {
         if (this.terrain)
             this.terrain.update()
+        
+        if (this.overlay)
+            this.overlay.update()
     }
 
     destroy()

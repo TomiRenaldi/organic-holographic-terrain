@@ -107,6 +107,7 @@ export default class Overlay
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            depthTest: false
         })
 
         this.overlay.mesh = new THREE.Mesh(this.overlay.geometry, this.overlay.material)
@@ -117,72 +118,44 @@ export default class Overlay
 
     setView()
     {
+        // View coortdinate
         this.view = {}
-        this.view.index = 0
         this.view.settings = [
             {
                 position: { x: 0, y: 2.124, z: - 0.172 },
                 rotation: { x: -1.489, y: - Math.PI, z: 0 },
-                focus: 2.14,
-                parallaxMultiplier: 0.25
+                focus: 2.14
             },
 
             {
-                position: { x: 1, y: 1.1, z: 0 },
+                position: { x: 1, y: 1.0, z: 0 },
                 rotation: { x: -0.833, y: 1.596, z: 1.651 },
-                focus: 1.1,
-                parallaxMultiplier: 0.12
+                focus: 1.1
             },
 
             {
-                position: { x: 1, y: 0.87, z: - 0.97 },
-                rotation: { x: - 0.638, y: 2.33, z: 0 },
-                focus: 1.36,
-                parallaxMultiplier: 0.12
+                position: { x: 1, y: 0.87, z: -0.97 },
+                rotation: { x: -0.638, y: -2.23, z: 0 },
+                focus: 1.36
             },
 
             {
                 position: { x: -1.43, y: 0.33, z: -0.144 },
                 rotation: { x: -0.312, y: -1.67, z: 0 },
-                focus: 1.25,
-                parallaxMultiplier: 0.12
-            }
+                focus: 1.25
+            },
         ]
 
-        this.view.current = this.view.settings[this.view.index]
+        this.view.setted = this.view.settings[0]
+        this.camera.modes.debug.instance.position.copy(this.view.setted.position)
+        this.camera.modes.debug.instance.rotation.x = this.view.setted.rotation.x
+        this.camera.modes.debug.instance.rotation.y = this.view.setted.rotation.y
 
-        // Parallax
-        this.view.parallax = {}
+        this.renderer.postProcess.bokehPass.materialBokeh.uniforms.focus.value = this.view.setted.focus
+    }
 
-        this.view.parallax.target = {}
-        this.view.parallax.target.x = 0
-        this.view.parallax.target.y = 0
+    update()
+    {
 
-        this.view.parallax.eased = {}
-        this.view.parallax.eased.x = 0
-        this.view.parallax.eased.y = 0
-        this.view.parallax.eased.multiplier = 4
-
-        // Apply
-        this.view.apply = () => 
-        {
-            // camera
-            this.camera.position.copy(this.view.current.position)
-            this.camera.rotation.x = this.view.current.rotation.x
-            this.camera.rotation.y = this.view.current.rotation.y
-
-            // Bokeh
-            this.renderer.postProcess.bokehPass.materialBokeh.uniforms.focus.value = this.current.focus
-
-            // Parallax
-            this.view.parallax.multiplier = this.view.current.parallaxMultiplier
-        }
-
-        // Change
-        this.view.change = (_index) => 
-        {
-            this.view = _index
-            this.view.current = this.view.settings[_index]
-        }
     }
 }

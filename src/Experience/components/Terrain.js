@@ -185,7 +185,7 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 500, 500)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
         this.terrain.hampura = {
@@ -310,7 +310,7 @@ export default class Terrain
         // Mesh
         this.terrain.mesh = new THREE.Mesh(this.terrain.geometry, this.terrain.material)
         this.terrain.mesh.userData.depthMaterial = this.terrain.depthMaterial
-        this.terrain.mesh.scale.set(5, 5, 5)
+        this.terrain.mesh.scale.set(10, 10, 10)
         this.scene.add(this.terrain.mesh)
     }
 
