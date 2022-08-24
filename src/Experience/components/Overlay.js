@@ -146,16 +146,28 @@ export default class Overlay
             },
         ]
 
-        this.view.setted = this.view.settings[0]
-        this.camera.modes.debug.instance.position.copy(this.view.setted.position)
-        this.camera.modes.debug.instance.rotation.x = this.view.setted.rotation.x
-        this.camera.modes.debug.instance.rotation.y = this.view.setted.rotation.y
+        this.view.change = (_index) =>
+        {
+            const viewSetting = this.view.settings[_index]    
 
-        this.renderer.postProcess.bokehPass.materialBokeh.uniforms.focus.value = this.view.setted.focus
+            this.camera.modes.debug.instance.position.copy(viewSetting.position)
+            this.camera.modes.debug.instance.rotation.x = viewSetting.rotation.x
+            this.camera.modes.debug.instance.rotation.y = viewSetting.rotation.y
+
+            this.renderer.postProcess.bokehPass.materialBokeh.uniforms.focus.value = viewSetting.focus
+        }
+
+        this.view.change(0)
+
+        if (this.debug)
+        {
+            const debugFolder = this.debugFolder.addFolder({
+                title: 'view'
+            })
+        }
     }
 
     update()
     {
-
     }
 }

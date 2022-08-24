@@ -15,6 +15,15 @@ export default class Camera
         this.targetElement = this.experience.targetElement
         this.scene = this.experience.scene
 
+        // Debug
+        if (this.debug)
+        {
+            this.debugFolder = this.debug.addFolder({
+                title: 'camera',
+                expanded: false
+            })
+        }
+
         // Set up
         this.mode = 'debug' // defaultCamera \ debugCamera
 
@@ -47,12 +56,25 @@ export default class Camera
         this.modes.debug.instance.position.set(1, 1, 0)
         
         this.modes.debug.orbitControls = new OrbitControls(this.modes.debug.instance, this.targetElement)
-        this.modes.debug.orbitControls.enabled = this.modes.debug.active
+        this.modes.debug.orbitControls.enabled = false
         this.modes.debug.orbitControls.screenSpacePanning = true
         this.modes.debug.orbitControls.enableKeys = false
         this.modes.debug.orbitControls.zoomSpeed = 0.25
         this.modes.debug.orbitControls.enableDamping = true
         this.modes.debug.orbitControls.update()
+
+        if (this.debug)
+        {
+            const debugFolder = this.debugFolder.addFolder({
+                title: 'orbitControls',
+                expanded: false
+            })
+
+            debugFolder.addInput(
+                this.modes.debug.orbitControls,
+                'enabled'
+            )
+        }
     }
 
 
