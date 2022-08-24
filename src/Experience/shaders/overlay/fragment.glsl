@@ -10,12 +10,6 @@ void main()
 {
     float distanceToCenter = smoothstep(0.0, 1.0, length(vUv - 0.5));
 
-    // float schemaStrength = clamp(distanceToCenter * uSchemaMultiplier + uSchemaOffset, 0.0, 1.0);
-
-    // vec3 colored = mix(uSchemaColor, uOverlayColor, (1.0 - schemaStrength) * uOverlayAlpha);
-
-    // float alpha = schemaStrength + uOverlayAlpha;
-
     float alpha = distanceToCenter * uSchemaMultiplier + uSchemaOffset;
 
     gl_FragColor = vec4(uSchemaColor, alpha);

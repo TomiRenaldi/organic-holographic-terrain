@@ -185,7 +185,7 @@ export default class Terrain
         this.terrain = {}
 
         // Geometry
-        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 100, 100)
+        this.terrain.geometry = new THREE.PlaneGeometry(1, 1, 800, 800)
         this.terrain.geometry.rotateX(- Math.PI * 0.5)
 
         this.terrain.hampura = {
@@ -203,8 +203,8 @@ export default class Terrain
             uHslHue: { value: 1.0 },
             uHslHueOffset: { value: 0.0 },
             uHslHueFrequency: { value: 10.0 },
-            uHslTimeFrequency: { value: 0.030 },
-            uHslLightness: { value: 0.45 },
+            uHslTimeFrequency: { value: 0.040 },
+            uHslLightness: { value: 0.55 },
             uHslLightnessVariation: { value: 0.25 },
             uHslLightnessFrequency: { value: 20.0 }
         }

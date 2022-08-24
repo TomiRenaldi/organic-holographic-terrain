@@ -20,7 +20,6 @@ export default class Camera
         {
             this.debugFolder = this.debug.addFolder({
                 title: 'camera',
-                expanded: false
             })
         }
 
@@ -53,7 +52,7 @@ export default class Camera
         this.modes.debug = {}
         this.modes.debug.instance = this.instance.clone()
         this.modes.debug.instance.rotation.reorder('YXZ')
-        this.modes.debug.instance.position.set(1, 1, 0)
+        this.modes.debug.instance.position.set(1.2, 1, 0)
         
         this.modes.debug.orbitControls = new OrbitControls(this.modes.debug.instance, this.targetElement)
         this.modes.debug.orbitControls.enabled = false
@@ -67,7 +66,6 @@ export default class Camera
         {
             const debugFolder = this.debugFolder.addFolder({
                 title: 'orbitControls',
-                expanded: false
             })
 
             debugFolder.addInput(
